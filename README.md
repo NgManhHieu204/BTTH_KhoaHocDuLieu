@@ -19,35 +19,29 @@ Sử dụng bộ dữ liệu mở NYC TLC Yellow Taxi Trip Records (định dạ
 ```bash
 docker compose up -d
 ```
-Sau khi chạy có thể truy cập Spark Master Web UI tại: `http://localhost:8080`
+Sau khi chạy truy cập Spark Master Web UI tại: `http://localhost:8080`
 
-### Chạy giải pháp Pandas (Local)
-Cài đặt thư viện:
-```bash
-pip install pandas pyarrow
-```
+### Chạy Pandas
 Thực thi script:
 ```bash
 python pandas_analysis.py
 ```
 
-### Chạy giải pháp PySpark (Distributed trên Docker)
+### Chạy PySpark
 Submit công việc lên cụm Spark:
 ```bash
-docker exec spark-master /opt/spark/bin/spark-submit --master spark://spark-master:7077 /tmp/spark_analysis.py
+docker exec -it spark-master /opt/spark/bin/spark-submit /opt/spark-data/spark_analysis.py
 ```
 
 ## 4. Đánh giá và kết luận (Review & Comparison)
 
 ### 4.1. Thu thập số liệu thực tế (Với 6 tháng dữ liệu)
-*   Thời gian xử lý bằng **Pandas** (1 luồng CPU): **~21.19 giây**.
-    
-    *(Ảnh chụp minh họa kết quả Pandas)*
+*   Thời gian xử lý bằng **Pandas**: **~21.19 giây**.
+
     ![...](spark-cluster/ketqua_pandas.png)
 
-*   Thời gian xử lý bằng **PySpark** (Cluster 2 Workers - 4 Cores): **~24.66 giây**. *(Lưu ý: Thời gian thực thi Spark có thể dao động từ 15-45s tùy thuộc vào thời gian khởi tạo network và phân bổ task của Master).*
+*   Thời gian xử lý bằng **PySpark**: **~24.66 giây**. *(Thời gian thực thi Spark có thể dao động từ 15-45s tùy thuộc vào thời gian khởi tạo network và phân bổ task của Master).*
 
-    *(Ảnh chụp minh họa kết quả PySpark)*
     ![...](spark-cluster/ketqua_spark.png)
 
 ### 4.2. Bảng Phân tích So sánh
@@ -57,7 +51,7 @@ docker exec spark-master /opt/spark/bin/spark-submit --master spark://spark-mast
 | **Bản chất kiến trúc** | Single-node, In-memory (Đơn máy, trong RAM). | Distributed, Disk & RAM (Phân tán trên cụm). |
 | **Cơ chế thực thi** | Eager (Tính toán ngay lập tức từng dòng lệnh). | Lazy (Xây dựng kế hoạch, chỉ tính toán khi gọi Action). |
 | **Quy mô dữ liệu** | Kích thước dữ liệu phải < Kích thước RAM trống. | Dữ liệu có thể lớn hơn RAM gấp nhiều lần (vài Terabyte). |
-| **Độ phức tạp thiết lập** | Đơn giản, `pip install pandas` là xong. | Phức tạp, cần thiết lập Cluster, JVM, Network, cấu hình bộ nhớ (như thiết lập Docker Compose trong dự án). |
+| **Độ phức tạp thiết lập** | Đơn giản, `pip install pandas` là xong. | Phức tạp, cần thiết lập Cluster, JVM, Network, cấu hình bộ nhớ. |
 | **Khuyến nghị sử dụng**| Phân tích thăm dò, làm sạch dữ liệu nhỏ gọn (Dưới 2GB). | Xử lý ETL định kỳ, phân tích dữ liệu lịch sử khổng lồ. |
 
 ### 4.3. Bài học rút ra
