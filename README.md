@@ -75,7 +75,7 @@ Nếu phân tích các tệp dữ liệu có thể fit vừa vào RAM (Small to 
 Dưới đây là ảnh chụp màn hình chứng minh thời gian thực thi của cả hai phương pháp trên 6 tháng dữ liệu:
 
 ### Hiệu năng của Pandas
-![Kết quả chạy Pandas](ketqua_pandas.png)
+![...](spark-cluster/ketqua_pandas.png)
 
 ### Hiệu năng của PySpark (Cluster 2 Workers)
-![Kết quả chạy PySpark](ketqua_spark.png)
+![...](spark-cluster/ketqua_spark.png)
