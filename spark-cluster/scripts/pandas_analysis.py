@@ -1,32 +1,36 @@
 import pandas as pd
 import time
-import os
-
 import glob
-
-# Đường dẫn tới thư mục dữ liệu
-folder_path = "data/"
-files = glob.glob(f"{folder_path}*.parquet")
-
-print(f"Đang đọc {len(files)} file dữ liệu từ {folder_path}...")
+import os
 
 # Ghi nhận thời gian bắt đầu
 start_time = time.time()
 
 try:
-    # 1. ĐỌC DỮ LIỆU (Eager Execution - Dữ liệu lập tức nạp vào RAM)
-    # Pandas đọc và gộp tất cả các file
+    # ĐỌC DỮ LIỆU (Eager Execution)
+
+    # Xác định đường dẫn thư mục hiện tại của file
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    # Lùi lại rồi đi vào thư mục 'data'
+    data_path = os.path.join(script_dir, "..", "data", "*.parquet")
+
+    # Tìm các file parquet
+    files = glob.glob(data_path)
+    print(f"Đang đọc {len(files)} file dữ liệu từ data...")
+
+    # Đọc và gộp
     pdf_list = [pd.read_parquet(f) for f in files]
     pdf = pd.concat(pdf_list, ignore_index=True)
 
-    # 2. LÀM SẠCH VÀ CHUYỂN ĐỔI (Feature Engineering)
+    # LÀM SẠCH VÀ CHUYỂN ĐỔI (Feature Engineering)
     # Tính thời gian di chuyển bằng phút
     pdf['trip_duration_mins'] = (pdf['tpep_dropoff_datetime'] - pdf['tpep_pickup_datetime']).dt.total_seconds() / 60
 
-    # Trích xuất 'giờ' đón khách
+    # Trích xuất giờ đón khách
     pdf['pickup_hour'] = pdf['tpep_pickup_datetime'].dt.hour
 
-    # 3. TỔNG HỢP DỮ LIỆU (Aggregation)
+    # TỔNG HỢP DỮ LIỆU (Aggregation)
     # Nhóm theo giờ, tính trung bình doanh thu và thời gian
     hourly_stats = pdf.groupby('pickup_hour').agg(
         avg_revenue=('total_amount', 'mean'),

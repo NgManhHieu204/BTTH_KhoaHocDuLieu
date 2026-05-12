@@ -31,7 +31,7 @@ hourly_stats_spark = sdf.groupBy("pickup_hour").agg(
     F.count("*").alias("total_trips")
 ).orderBy("pickup_hour")
 
-# 5. THỰC THI
+# THỰC THI
 hourly_stats_spark.show(24)
 
 # Ghi nhận thời gian kết thúc

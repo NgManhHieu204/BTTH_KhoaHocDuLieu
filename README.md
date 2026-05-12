@@ -2,6 +2,8 @@
 
 Dự án này thuộc chương 3 và 4, nhằm mục đích xây dựng một luồng xử lý dữ liệu tính toán "Doanh thu trung bình và thời gian di chuyển theo từng khung giờ trong ngày" từ bộ dữ liệu Taxi của New York. Qua đó, so sánh thực tế giữa kiến trúc xử lý In-memory của **Pandas** và cơ chế xử lý phân tán (Distributed) của **PySpark**.
 
+> **[Video Thuyết trình Dự án trên Google Drive](https://drive.google.com/file/d/1qSqK9QmY_tFBm-JexS4m_dtoQZziJJWw/view?usp=drive_link)**
+
 ## 1. Mục tiêu dự án
 *   **Phân biệt kiến trúc:** Hiểu rõ giới hạn In-memory (bộ nhớ trong) của Pandas so với cơ chế Disk/RAM Distributed (phân tán) của Spark.
 *   **Khác biệt cơ chế thực thi:** Trải nghiệm sự khác biệt giữa Eager Execution (Thực thi ngay lập tức - Pandas) và Lazy Evaluation (Thực thi lười biếng - PySpark).
@@ -30,7 +32,7 @@ python pandas_analysis.py
 ### Chạy PySpark
 Submit công việc lên cụm Spark:
 ```bash
-docker exec -it spark-master /opt/spark/bin/spark-submit /opt/spark-data/spark_analysis.py
+docker exec -it spark-master /opt/spark/bin/spark-submit /opt/scripts/spark_analysis.py
 ```
 
 ## 4. Đánh giá và kết luận (Review & Comparison)
