@@ -43,12 +43,12 @@ docker exec spark-master /opt/spark/bin/spark-submit --master spark://spark-mast
 *   Thời gian xử lý bằng **Pandas** (1 luồng CPU): **~21.19 giây**.
     
     *(Ảnh chụp minh họa kết quả Pandas)*
-    ![Pandas Execution Time](pandas_result.png)
+    ![...](spark-cluster/ketqua_pandas.png)
 
 *   Thời gian xử lý bằng **PySpark** (Cluster 2 Workers - 4 Cores): **~24.66 giây**. *(Lưu ý: Thời gian thực thi Spark có thể dao động từ 15-45s tùy thuộc vào thời gian khởi tạo network và phân bổ task của Master).*
 
     *(Ảnh chụp minh họa kết quả PySpark)*
-    ![PySpark Execution Time](pyspark_result.png)
+    ![...](spark-cluster/ketqua_spark.png)
 
 ### 4.2. Bảng Phân tích So sánh
 
@@ -70,12 +70,3 @@ Qua thực nghiệm với quy mô dữ liệu tầm trung (6 tháng), ta thấy 
 
 **Kết luận:** 
 Nếu phân tích các tệp dữ liệu có thể fit vừa vào RAM (Small to Medium Data), Pandas luôn là lựa chọn tối ưu về cả thời gian viết code lẫn thời gian thực thi. PySpark chỉ thực sự bộc lộ sức mạnh thống trị (chia để trị) khi khối lượng dữ liệu vượt mức RAM cho phép (Big Data), lúc mà Pandas sẽ bị văng lỗi bộ nhớ (MemoryError) hoặc treo máy.
-## 5. Kết quả Thực nghiệm
-
-Dưới đây là ảnh chụp màn hình chứng minh thời gian thực thi của cả hai phương pháp trên 6 tháng dữ liệu:
-
-### Hiệu năng của Pandas
-![...](spark-cluster/ketqua_pandas.png)
-
-### Hiệu năng của PySpark (Cluster 2 Workers)
-![...](spark-cluster/ketqua_spark.png)
